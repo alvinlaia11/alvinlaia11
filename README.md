@@ -7,8 +7,6 @@
   <img src="https://raw.githubusercontent.com/alvinlaia/alvinlaia/main/assets/coding.png" width="180px" style="margin: 20px 0" />
 
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alvin-nonitehe-syas-putra-laia-6504a825a/)
-  [![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=for-the-badge&logo=dribbble&logoColor=white)](https://dribbble.com/alvinlaia)
-  [![Behance](https://img.shields.io/badge/Behance-1769ff?style=for-the-badge&logo=behance&logoColor=white)](https://behance.net/alvinlaia)
   [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/alvin.laia11/)
   
   <img src="https://komarev.com/ghpvc/?username=alvinlaia&style=for-the-badge&color=0891b2&labelColor=1c1917" />
