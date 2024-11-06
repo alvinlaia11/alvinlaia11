@@ -10,17 +10,17 @@
   <img src="https://komarev.com/ghpvc/?username=alvinlaia&style=for-the-badge&color=0891b2&labelColor=1c1917" />
 </div>
 
-## 🧑‍💻 Tentang Saya
+## 🧑‍💻 About Me
 
-Hai! Saya Alvin, seorang Frontend Developer dan UI/UX Designer yang bersemangat dalam menciptakan pengalaman digital yang indah dan fungsional. Dengan perpaduan keahlian dalam pengembangan web dan desain, saya berusaha membuat aplikasi yang tidak hanya terlihat bagus tetapi juga memberikan nilai tambah bagi pengguna.
+Hi! I'm Alvin, a passionate Frontend Developer and UI/UX Designer dedicated to creating beautiful and functional digital experiences. Combining expertise in web development and design, I strive to build applications that not only look great but also deliver meaningful value to users.
 
-### 🎯 Fokus Utama
-- 🎨 Merancang antarmuka pengguna yang intuitif dan menarik
-- 💻 Mengembangkan aplikasi web yang responsif dan berkinerja tinggi
-- 🔍 Melakukan riset pengguna dan pengujian kegunaan
-- 🛠️ Membangun sistem desain dan pustaka komponen
-- 📱 Mendesain pengalaman mobile-first
-- ⚡ Mengimplementasikan animasi dan transisi yang halus
+### 🎯 Main Focus
+- 🎨 Designing intuitive and engaging user interfaces
+- 💻 Developing responsive and high-performance web applications
+- 🔍 Conducting user research and usability testing
+- 🛠️ Building design systems and component libraries
+- 📱 Creating mobile-first experiences
+- ⚡ Implementing smooth animations and transitions
 
 ## 💻 Tech Stack
 
