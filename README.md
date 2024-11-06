@@ -48,9 +48,9 @@ Hai! Saya Alvin, seorang Frontend Developer dan UI/UX Designer yang bersemangat 
 ## 📊 GitHub Stats
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=alvinlaia&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=true" height="180em" />
+  <img src="https://github-readme-stats.vercel.app/api?username=alvinlaia11&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=true" height="180em" />
   
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=alvinlaia&theme=tokyonight&hide_border=true" height="180em" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=alvinlaia11&theme=tokyonight&hide_border=true" height="180em" />
 </div>
 
 ## 🌟 Portfolio & Karya
@@ -60,8 +60,6 @@ Hai! Saya Alvin, seorang Frontend Developer dan UI/UX Designer yang bersemangat 
 ### 🔍 Temukan Saya Di
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-255E63?style=for-the-badge&logo=About.me&logoColor=white)](https://alvinlaia11.github.io/portfolio/)
-[![Behance](https://img.shields.io/badge/Behance-1769ff?style=for-the-badge&logo=behance&logoColor=white)](https://behance.net/alvinlaia)
-[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=for-the-badge&logo=dribbble&logoColor=white)](https://dribbble.com/alvinlaia)
 
 ### 📫 Hubungi Saya
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alvinlaia2004@gmail.com)
