@@ -1,23 +1,26 @@
-# Juan Antonio V. <img src="https://raw.githubusercontent.com/JuanAntonioV/JuanAntonioV/main/assets/wave.gif" width="35px">
+<div align="center">
+  
+  # ⚡️ Juan Antonio V.
+  
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=3F91F7&center=true&vCenter=true&random=false&width=435&lines=Fullstack+Developer;Problem+Solver;Tech+Enthusiast" />
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/JuanAntonioV/JuanAntonioV/main/assets/coding.png" width="200px">
-</p>
+  <img src="https://raw.githubusercontent.com/JuanAntonioV/JuanAntonioV/main/assets/coding.png" width="180px" style="margin: 20px 0" />
 
-<p align="center">
-  <a href="https://www.linkedin.com/in/juanantonioV">
-    <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" height=25>
-  </a>
-  <a href="https://www.youtube.com/@juanantonioV">
-    <img src="https://img.shields.io/badge/youtube-%23FF0000.svg?&style=for-the-badge&logo=youtube&logoColor=white" height=25>
-  </a>
-  <a href="https://www.instagram.com/ja_atiov">
-    <img src="https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white" height=25>
-  </a>
-</p>
+  <div>
+    <a href="https://www.linkedin.com/in/juanantonioV" target="_blank">
+      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="linkedin" />
+    </a>
+    <a href="https://youtube.com/@juanantonioV" target="_blank">
+      <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="youtube" />
+    </a>
+    <a href="https://instagram.com/ja_atiov" target="_blank">
+      <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="instagram" />
+    </a>
+  </div>
 
-<p align="center">
-  <code>Fullstack Developer</code> • <code>Problem Solver</code> • <code>Open Source Enthusiast</code>
-</p>
+  <img src="https://komarev.com/ghpvc/?username=JuanAntonioV&style=for-the-badge&color=0891b2&labelColor=1c1917" />
+</div>
 
-### 🚀 Tentang Saya
+<br/>
+
+## 🧑‍💻 About Me
