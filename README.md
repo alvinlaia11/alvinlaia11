@@ -1,4 +1,4 @@
-<div align="center">
+  <div align="center">
   
   # ⚡️ Alvin Laia
   
@@ -53,15 +53,15 @@ Hi! I'm Alvin, a passionate Frontend Developer and UI/UX Designer dedicated to c
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=alvinlaia11&theme=tokyonight&hide_border=true" height="180em" />
 </div>
 
-## 🌟 Portfolio & Karya
+## 🌟 Portfolio & Work
 
 <div align="center">
   
-### 🔍 Temukan Saya Di
+### 🔍 Found Me On
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-255E63?style=for-the-badge&logo=About.me&logoColor=white)](https://alvinlaia11.github.io/portfolio/)
 
-### 📫 Hubungi Saya
+### 📫 Contact Me
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alvinlaia2004@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alvin-nonitehe-syas-putra-laia-6504a825a/)
 
