@@ -4,8 +4,6 @@
   
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=3F91F7&center=true&vCenter=true&random=false&width=435&lines=Frontend+Developer;UI%2FUX+Designer;Creative+Coder" />
 
-  <img src="https://raw.githubusercontent.com/alvinlaia/alvinlaia/main/assets/coding.png" width="180px" style="margin: 20px 0" />
-
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alvin-nonitehe-syas-putra-laia-6504a825a/)
   [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/alvin.laia11/)
   
