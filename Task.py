@@ -42,6 +42,7 @@ class Petugas:
         self.id = input("ID : ")
         self.nama = input("Nama : ")
 
+# Implementasi Facade Pattern
 class RentalFacade:
     def __init__(self, rental):
         self.rental = rental
