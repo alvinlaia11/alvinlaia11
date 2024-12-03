@@ -1,136 +1,181 @@
-import os
+def hitung(menit, tarif):
+    total = menit * tarif
+    return total
 
-def clr():
-    os.system('cls')
+class Jam:
+    def __init__(self, jam, menit):
+        self.jam = jam
+        self.menit = menit
+    
+    def selisih(self, jam_akhir):
+        menit_awal = (self.jam * 60) + self.menit
+        menit_akhir = (jam_akhir.jam * 60) + jam_akhir.menit
+        return menit_akhir - menit_awal
 
-class Mahasiswa:
-    def __init__(self, nim, nama, jurusan):
-        self.nim, self.nama, self.jurusan = nim, nama, jurusan
-        
-    def __str__(self):
-        return f"NIM: {self.nim}, Nama: {self.nama}, Jurusan: {self.jurusan}"
+class Alat:
+    def __init__(self, twatt, twift):
+        pass
 
-class Dosen:
-    def __init__(self, nip, nama, bidang):
-        self.nip, self.nama, self.bidang = nip, nama, bidang
-        
-    def __str__(self):
-        return f"NIP: {self.nip}, Nama: {self.nama}, Bidang: {self.bidang}"
-
-class Perkuliahan:
+class Adaptorpendorong:
     def __init__(self):
-        self.daftar_dosen = []
-        self.daftar_mahasiswa = []
-        self.status_kelas = False
-        
-    def tambah_dosen(self):
-        print("\n=== Tambah Dosen ===")
-        nip = input("NIP: ").strip()
-        nama = input("Nama: ").strip()
-        bidang = input("Bidang: ").strip()
-        
-        if not all([nip, nama, bidang]):  # Validasi input kosong
-            print("Data dosen tidak boleh kosong!")
-            return
-            
-        self.daftar_dosen.append(Dosen(nip, nama, bidang))
-        print("Dosen berhasil ditambahkan!")
-        
-    def tambah_mahasiswa(self):
-        print("\n=== Tambah Mahasiswa ===")
-        nim = input("NIM: ").strip()
-        nama = input("Nama: ").strip()
-        jurusan = input("Jurusan: ").strip()
-        
-        if not all([nim, nama, jurusan]):  # Validasi input kosong
-            print("Data mahasiswa tidak boleh kosong!")
-            return
-            
-        self.daftar_mahasiswa.append(Mahasiswa(nim, nama, jurusan))
-        print("Mahasiswa berhasil ditambahkan!")
-        
-    def detail_kelas(self):
-        print("\n=== Detail Kelas ===")
-        print("Daftar Dosen:", *self.daftar_dosen, sep="\n")
-        print("\nDaftar Mahasiswa:", *self.daftar_mahasiswa, sep="\n")
-            
-    def tap_in(self):
-        if not (self.daftar_dosen and self.daftar_mahasiswa):
-            print("\nBelum ada data dosen atau mahasiswa!")
-            return
-        if not self.status_kelas:
-            print("\nDosen membuka perkuliahan Toeri\nMelakukan Absensi\nDosen memaparkan materi\nMelakukan Diskusi\nDosen Menutup Perkuliahan")
-            self.status_kelas = True
-            print("\nPerkuliahan Dimulai!")
+        print("\nTambah Mobil")
+        self.id = input("ID : ")
+        self.nama = input("Nama : ")
+        self.transmisi = input("Transmisi (AT/MT) : ")
+        self.jumlahRoda = input("Jumlah Roda : ")
+        self.status_cekin = False
+        self.waktu_cekin = None
+
+class Excavator:
+    def __init__(self):
+        print("\nTambah Excavator")
+        self.id = input("ID : ")
+        self.nama = input("Nama : ")
+        self.att = input("Jenis Attachment (Bucket, Grapple, Breaker): ")
+        self.jumlahRoda = input("Jenis Roda (Crawler/Wheeled): ")
+        self.status_cekin = False
+        self.waktu_cekin = None
+
+class Petugas:
+    def __init__(self):
+        print("\nTambah Petugas")
+        self.id = input("ID : ")
+        self.nama = input("Nama : ")
+
+# Implementasi Facade Pattern
+class RentalFacade:
+    def __init__(self, rental):
+        self.rental = rental
+
+    def tampilkanStatus(self):
+        print("\n=== Status Rental ===")
+        print("\nDaftar Petugas:")
+        if len(self.rental.listPetugas) == 0:
+            print("- Belum ada petugas")
         else:
-            print("\nKelas sudah dimulai!")
-            
-    def tap_out(self):
-        if not (self.daftar_dosen and self.daftar_mahasiswa):
-            print("\nBelum ada data dosen atau mahasiswa!")
-            return
-        if self.status_kelas:
-            print("\nDosen menutup perkuliahan")
-            self.status_kelas = False
+            for petugas in self.rental.listPetugas:
+                print(f"- ID: {petugas.id}, Nama: {petugas.nama}")
+
+        print("\nDaftar Kendaraan:")
+        if len(self.rental.listKendaraan) == 0:
+            print("- Belum ada kendaraan")
         else:
-            print("\nTidak ada perkuliahan yang sedang berlangsung!")
+            for kendaraan in self.rental.listKendaraan:
+                status = "CekIn" if kendaraan.status_cekin else "Tersedia"
+                print(f"- ID: {kendaraan.id}, Nama: {kendaraan.nama}, Status: {status}")
+
+class Rental:
+    def __init__(self):
+        self.listKendaraan = []
+        self.listPetugas = []
+        self.facade = RentalFacade(self)
     
-    def tampilkan_template(self):
-        print("\nTemplate Pattern")
-        print("\n# Template Kelas Teori:")
-        print("Dosen Membuka perkuliahan Teori")
-        print("Melakukan Absensi")
-        print("Dosen memaparkan materi")
-        print("Melakukan Diskusi")
-        print("Dosen menutup perkuliahan")
+    def mulai(self):
+        print("\n=== Sistem Rental Kendaraan ===")
+        self.facade.tampilkanStatus()
+    
+    def tampilMenuUtama(self):
+        while True:
+            print("\n1. Mulai(Facade Pattern)")
+            print("2. Tambah Petugas")
+            print("3. Tambah Kendaraan")
+            print("4. CekIn Kendaraan")
+            print("5. CekOut Kendaraan")
+            print("6. Daftar Kendaraan")
+            print("7. Daftar Parkir")
+            print("0. Keluar")
+            
+            pil = input("\nPilihan : ")
+            if pil == "0":
+                print("\nTerima kasih telah menggunakan sistem rental!")
+                break
+            elif pil == "1":
+                self.mulai()
+            elif pil == "2":
+                self.tambahPetugas()
+            elif pil == "3":
+                self.tambahKendaraan()
+            elif pil == "4":
+                self.cekInKendaraan()
+            elif pil == "5":
+                self.cekOutKendaraan()
+            elif pil == "6":
+                self.daftarKendaraan()
+            elif pil == "7":
+                self.daftarParkir()
+            
+            if pil != "0":
+                input("\nEnter untuk Lanjut")
+
+    def tambahPetugas(self):
+        petugas = Petugas()
+        self.listPetugas.append(petugas)
+        print(f"Petugas dengan ID: {petugas.id} berhasil ditambahkan")
+
+    def tambahKendaraan(self):
+        print("\nMenu")
+        print("1. Mobil")
+        print("2. Excavator")
+        pilihan = input("Pilihan : ")
         
-        print("\n# Template Kelas Praktek:")
-        print("Dosen Membuka perkuliahan")
-        print("Melakukan Absensi")
-        print("Mahasiswa mengerjakan Latihan")
-        print("Dosen menutup perkuliahan")
+        if pilihan == "1":
+            kendaraan = Adaptorpendorong()
+            self.listKendaraan.append(kendaraan)
+        elif pilihan == "2":
+            kendaraan = Excavator()
+            self.listKendaraan.append(kendaraan)
 
-class Teori(Perkuliahan):
-    def __init__(self):
-        super().__init__()
-        self.jenis = "Teori"
-    
-    def jalankan_kelas(self):
-        print("Dosen Membuka perkuliahan Teori")
-        print("Melakukan Absensi")
-        print("Dosen memaparkan materi")
-        print("Melakukan Diskusi")
-        print("Dosen menutup perkuliahan")
+    def cekInKendaraan(self):
+        id_kendaraan = input("\nID Kendaraan : ")
+        waktu = input("Waktu CekIn (jj:mm): ")
+        
+        for kendaraan in self.listKendaraan:
+            if kendaraan.id == id_kendaraan:
+                if not kendaraan.status_cekin:
+                    kendaraan.status_cekin = True
+                    kendaraan.waktu_cekin = waktu
+                    print("Parkir telah ditambahkan")
+                    return
+                else:
+                    print(f"Kendaraan {id_kendaraan} sudah CekIn Parkir")
+                    return
+        print(f"Kendaraan {id_kendaraan} tidak ditemukan")
 
-class Praktek(Perkuliahan):
-    def __init__(self):
-        super().__init__()
-        self.jenis = "Praktek"
-    
-    def jalankan_kelas(self):
-        print("Dosen Membuka perkuliahan")
-        print("Melakukan Absensi")
-        print("Mahasiswa mengerjakan Latihan")
-        print("Dosen menutup perkuliahan")
+    def cekOutKendaraan(self):
+        id_kendaraan = input("\nID Kendaraan : ")
+        for kendaraan in self.listKendaraan:
+            if kendaraan.id == id_kendaraan:
+                if not kendaraan.status_cekin:
+                    print(f"Kendaraan {id_kendaraan} belum CekIn Parkir")
+                    return
+                waktu_keluar = input("Waktu CekOut (jj:mm): ")
+                kendaraan.status_cekin = False
+                print(f"ID Kendaraan : {id_kendaraan}")
+                print(f"Waktu CekIn (jj:mm): {kendaraan.waktu_cekin}")
+                print(f"Waktu CekOut (jj:mm): {waktu_keluar}")
+                print(f"Kendaraan berhasil CekOut")
+                return
+        print(f"Kendaraan {id_kendaraan} tidak ditemukan")
 
-clr()
-ob = Perkuliahan()
+    def daftarKendaraan(self):
+        print("\nDaftar Kendaraan:")
+        if len(self.listKendaraan) == 0:
+            print("- Belum ada kendaraan")
+        else:
+            for kendaraan in self.listKendaraan:
+                print(f"ID: {kendaraan.id}, Nama: {kendaraan.nama}")
 
-while True:
-    print("\nMenu\n=====")
-    print("1. Tambah Dosen\n2. Tambah Mahasiswa\n3. Detail Kelas\n4. Tap In\n5. Tap Out\n6. Template Pattern\n0. Keluar")
-    
-    match input("Pilihan: "):
-        case "1": ob.tambah_dosen()
-        case "2": ob.tambah_mahasiswa()
-        case "3": ob.detail_kelas()
-        case "4": ob.tap_in()
-        case "5": ob.tap_out()
-        case "6": ob.tampilkan_template()
-        case "0": 
-            print("\nTerima kasih!")
-            break
-        case _: print("\nPilihan tidak valid!")
-    
-    input("\nTekan enter untuk lanjut...")
-    clr()
+    def daftarParkir(self):
+        print("\nDaftar Parkir:")
+        ada_parkir = False
+        for kendaraan in self.listKendaraan:
+            if kendaraan.status_cekin:
+                print(f"ID: {kendaraan.id}, Waktu CekIn: {kendaraan.waktu_cekin}")
+                ada_parkir = True
+        if not ada_parkir:
+            print("- Belum ada kendaraan yang parkir")
+
+
+if __name__ == "__main__":
+    rental = Rental()
+    rental.tampilMenuUtama()
