@@ -42,7 +42,6 @@ class Petugas:
         self.id = input("ID : ")
         self.nama = input("Nama : ")
 
-# Implementasi Facade Pattern
 class RentalFacade:
     def __init__(self, rental):
         self.rental = rental
@@ -69,6 +68,7 @@ class Rental:
         self.listKendaraan = []
         self.listPetugas = []
         self.facade = RentalFacade(self)
+        self.tarif_per_menit = 1000 
     
     def mulai(self):
         print("\n=== Sistem Rental Kendaraan ===")
@@ -128,6 +128,7 @@ class Rental:
     def cekInKendaraan(self):
         id_kendaraan = input("\nID Kendaraan : ")
         waktu = input("Waktu CekIn (jj:mm): ")
+        waktu = waktu.replace('.', ':') 
         
         for kendaraan in self.listKendaraan:
             if kendaraan.id == id_kendaraan:
@@ -148,11 +149,30 @@ class Rental:
                 if not kendaraan.status_cekin:
                     print(f"Kendaraan {id_kendaraan} belum CekIn Parkir")
                     return
-                waktu_keluar = input("Waktu CekOut (jj:mm): ")
+                
+            
+                waktu_keluar_input = input("Waktu CekOut (jj:mm): ")
+                waktu_keluar_input = waktu_keluar_input.replace('.', ':')  
+                waktu_masuk = kendaraan.waktu_cekin.replace('.', ':')  
+                
+              
+                jam_masuk, menit_masuk = map(int, waktu_masuk.split(':'))
+                jam_keluar, menit_keluar = map(int, waktu_keluar_input.split(':'))
+                
+              
+                waktu_masuk = Jam(jam_masuk, menit_masuk)
+                waktu_keluar = Jam(jam_keluar, menit_keluar)
+                
+                
+                durasi = waktu_masuk.selisih(waktu_keluar)
+                biaya = hitung(durasi, self.tarif_per_menit)
+                
                 kendaraan.status_cekin = False
-                print(f"ID Kendaraan : {id_kendaraan}")
+                print(f"\nID Kendaraan : {id_kendaraan}")
                 print(f"Waktu CekIn (jj:mm): {kendaraan.waktu_cekin}")
-                print(f"Waktu CekOut (jj:mm): {waktu_keluar}")
+                print(f"Waktu CekOut (jj:mm): {waktu_keluar_input}")
+                print(f"Durasi: {durasi} menit")
+                print(f"Biaya: Rp {biaya:,}")
                 print(f"Kendaraan berhasil CekOut")
                 return
         print(f"Kendaraan {id_kendaraan} tidak ditemukan")
