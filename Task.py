@@ -1,6 +1,19 @@
-def hitung(menit, tarif):
-    total = menit * tarif
-    return total
+def hitung(menit, jenis_kendaraan):
+    # Konversi menit ke jam (pembulatan ke atas)
+    jam = (menit + 59) // 60  # Pembulatan ke atas
+    
+    # Set tarif dasar berdasarkan jenis kendaraan
+    if isinstance(jenis_kendaraan, Adaptorpendorong):
+        tarif_dasar = 5000
+    else:  # Excavator
+        tarif_dasar = 30000
+    
+    # Hitung total biaya
+    if jam <= 1:
+        return tarif_dasar
+    else:
+        # Tarif dasar + (jumlah jam tambahan * 2000)
+        return tarif_dasar + ((jam - 1) * 2000)
 
 class Jam:
     def __init__(self, jam, menit):
@@ -96,8 +109,17 @@ class Rental:
             elif pil == "1":
                 self.mulai()
             elif pil == "2":
-                self.tambahPetugas()
+                # Cek jika sudah ada petugas
+                if len(self.listPetugas) > 0:
+                    print("\nPetugas sudah ada! Silahkan tambah kendaraan.")
+                    self.tambahKendaraan()
+                else:
+                    self.tambahPetugas()
             elif pil == "3":
+                # Cek jika belum ada petugas
+                if len(self.listPetugas) == 0:
+                    print("\nHarap tambahkan petugas terlebih dahulu!")
+                    self.tambahPetugas()
                 self.tambahKendaraan()
             elif pil == "4":
                 self.cekInKendaraan()
@@ -156,33 +178,35 @@ class Rental:
                 
                 waktu_keluar_input = input("Waktu CekOut (jj:mm): ")
                 waktu_keluar_input = waktu_keluar_input.replace('.', ':')  
-                waktu_masuk = kendaraan.waktu_cekin.split(':')  # Langsung split waktu masuk
-                waktu_keluar = waktu_keluar_input.split(':')   # Langsung split waktu keluar
+                waktu_masuk = kendaraan.waktu_cekin.split(':')
+                waktu_keluar = waktu_keluar_input.split(':')
                 
                 try:
-                    # Konversi waktu ke integer
                     jam_masuk = int(waktu_masuk[0])
                     menit_masuk = int(waktu_masuk[1])
                     jam_keluar = int(waktu_keluar[0])
                     menit_keluar = int(waktu_keluar[1])
                     
-                    # Buat objek Jam
                     waktu_masuk_obj = Jam(jam_masuk, menit_masuk)
                     waktu_keluar_obj = Jam(jam_keluar, menit_keluar)
                     
-                    # Hitung durasi dan biaya
                     durasi = waktu_masuk_obj.selisih(waktu_keluar_obj)
-                    biaya = hitung(durasi, self.tarif_per_menit)
+                    # Hitung jam dan menit untuk display
+                    jam = durasi // 60
+                    menit = durasi % 60
+                    
+                    # Tentukan tarif dasar
+                    tarif_dasar = 5000 if isinstance(kendaraan, Adaptorpendorong) else 30000
+                    biaya = hitung(durasi, kendaraan)
                     
                     kendaraan.status_cekin = False
                     kendaraan.waktu_cekin = None
                     
                     print(f"\nID Kendaraan : {id_kendaraan}")
-                    print(f"Waktu CekIn (jj:mm): {':'.join(waktu_masuk)}")
                     print(f"Waktu CekOut (jj:mm): {':'.join(waktu_keluar)}")
-                    print(f"Durasi: {durasi} menit")
-                    print(f"Biaya: Rp {biaya:,}")
-                    print("Kendaraan berhasil CekOut")
+                    print(f"Waktu : {jam}.{menit} jam {menit} menit dengan tarif dasar {tarif_dasar}")
+                    print(f"{biaya}")
+                    print(f"Kendaraan {id_kendaraan} berhasil Cek Out dengan biaya : {biaya}")
                     return
                 except (ValueError, IndexError):
                     print("Format waktu tidak valid. Gunakan format jj:mm")
