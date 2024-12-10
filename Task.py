@@ -10,7 +10,10 @@ class Jam:
     def selisih(self, jam_akhir):
         menit_awal = (self.jam * 60) + self.menit
         menit_akhir = (jam_akhir.jam * 60) + jam_akhir.menit
-        return menit_akhir - menit_awal
+        selisih = menit_akhir - menit_awal
+        if selisih < 0:
+            selisih += 24 * 60
+        return selisih
 
 class Alat:
     def __init__(self, twatt, twift):
@@ -151,31 +154,40 @@ class Rental:
                     print(f"Kendaraan {id_kendaraan} belum CekIn Parkir")
                     return
                 
-            
                 waktu_keluar_input = input("Waktu CekOut (jj:mm): ")
                 waktu_keluar_input = waktu_keluar_input.replace('.', ':')  
-                waktu_masuk = kendaraan.waktu_cekin.replace('.', ':')  
+                waktu_masuk = kendaraan.waktu_cekin.split(':')  # Langsung split waktu masuk
+                waktu_keluar = waktu_keluar_input.split(':')   # Langsung split waktu keluar
                 
-              
-                jam_masuk, menit_masuk = map(int, waktu_masuk.split(':'))
-                jam_keluar, menit_keluar = map(int, waktu_keluar_input.split(':'))
+                try:
+                    # Konversi waktu ke integer
+                    jam_masuk = int(waktu_masuk[0])
+                    menit_masuk = int(waktu_masuk[1])
+                    jam_keluar = int(waktu_keluar[0])
+                    menit_keluar = int(waktu_keluar[1])
+                    
+                    # Buat objek Jam
+                    waktu_masuk_obj = Jam(jam_masuk, menit_masuk)
+                    waktu_keluar_obj = Jam(jam_keluar, menit_keluar)
+                    
+                    # Hitung durasi dan biaya
+                    durasi = waktu_masuk_obj.selisih(waktu_keluar_obj)
+                    biaya = hitung(durasi, self.tarif_per_menit)
+                    
+                    kendaraan.status_cekin = False
+                    kendaraan.waktu_cekin = None
+                    
+                    print(f"\nID Kendaraan : {id_kendaraan}")
+                    print(f"Waktu CekIn (jj:mm): {':'.join(waktu_masuk)}")
+                    print(f"Waktu CekOut (jj:mm): {':'.join(waktu_keluar)}")
+                    print(f"Durasi: {durasi} menit")
+                    print(f"Biaya: Rp {biaya:,}")
+                    print("Kendaraan berhasil CekOut")
+                    return
+                except (ValueError, IndexError):
+                    print("Format waktu tidak valid. Gunakan format jj:mm")
+                    return
                 
-              
-                waktu_masuk = Jam(jam_masuk, menit_masuk)
-                waktu_keluar = Jam(jam_keluar, menit_keluar)
-                
-                
-                durasi = waktu_masuk.selisih(waktu_keluar)
-                biaya = hitung(durasi, self.tarif_per_menit)
-                
-                kendaraan.status_cekin = False
-                print(f"\nID Kendaraan : {id_kendaraan}")
-                print(f"Waktu CekIn (jj:mm): {kendaraan.waktu_cekin}")
-                print(f"Waktu CekOut (jj:mm): {waktu_keluar_input}")
-                print(f"Durasi: {durasi} menit")
-                print(f"Biaya: Rp {biaya:,}")
-                print(f"Kendaraan berhasil CekOut")
-                return
         print(f"Kendaraan {id_kendaraan} tidak ditemukan")
 
     def daftarKendaraan(self):
