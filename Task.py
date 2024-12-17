@@ -1,56 +1,45 @@
-def hitung(menit, jenis_kendaraan):
-    # Konversi menit ke jam (pembulatan ke atas)
-    jam = (menit + 59) // 60  # Pembulatan ke atas
-    
-    # Set tarif dasar berdasarkan jenis kendaraan
-    if isinstance(jenis_kendaraan, Adaptorpendorong):
-        tarif_dasar = 5000
-    else:  # Excavator
-        tarif_dasar = 30000
-    
-    # Hitung total biaya
-    if jam <= 1:
-        return tarif_dasar
-    else:
-        # Tarif dasar + (jumlah jam tambahan * 2000)
-        return tarif_dasar + ((jam - 1) * 2000)
+def hitung(menit, tarif):
+    tarif_dasar = 5000 if isinstance(tarif, Mobil) else 30000
+    if menit <= 60: return tarif_dasar
+    jam = (menit - 1) // 60 + 1
+    return tarif_dasar + ((jam - 1) * 2000)
 
 class Jam:
     def __init__(self, jam, menit):
-        self.jam = jam
-        self.menit = menit
+        self.jam, self.menit = jam, menit
     
     def selisih(self, jam_akhir):
         menit_awal = (self.jam * 60) + self.menit
         menit_akhir = (jam_akhir.jam * 60) + jam_akhir.menit
         selisih = menit_akhir - menit_awal
-        if selisih < 0:
-            selisih += 24 * 60
-        return selisih
+        return selisih if selisih >= 0 else selisih + 24 * 60
 
-class Alat:
-    def __init__(self, twatt, twift):
-        pass
-
-class Adaptorpendorong:
+class AdapterKendaraan:
     def __init__(self):
-        print("\nTambah Mobil")
         self.id = input("ID : ")
         self.nama = input("Nama : ")
-        self.transmisi = input("Transmisi (AT/MT) : ")
-        self.jumlahRoda = input("Jumlah Roda : ")
         self.status_cekin = False
         self.waktu_cekin = None
+
+class Mobil:
+    def __init__(self):
+        print("Tambah Mobil")
+        self.kendaraan = AdapterKendaraan()
+        self.transmisi = input("Transmisi (AT/MT) : ")
+        self.jumlahRoda = input("Jumlah Roda : ")
+    
+    def __getattr__(self, name):
+        return getattr(self.kendaraan, name)
 
 class Excavator:
     def __init__(self):
-        print("\nTambah Excavator")
-        self.id = input("ID : ")
-        self.nama = input("Nama : ")
-        self.att = input("Jenis Attachment (Bucket, Grapple, Breaker): ")
-        self.jumlahRoda = input("Jenis Roda (Crawler/Wheeled): ")
-        self.status_cekin = False
-        self.waktu_cekin = None
+        print("Tambah Excavator\n")
+        self.kendaraan = AdapterKendaraan()
+        self.att = input("Jenis Atachment (Bucket, Grapple, Breaker): ")
+        self.jenisRoda = input("Jenis Roda (Crawler/Wheeled): ")
+    
+    def __getattr__(self, name):
+        return getattr(self.kendaraan, name)
 
 class Petugas:
     def __init__(self):
@@ -58,181 +47,146 @@ class Petugas:
         self.id = input("ID : ")
         self.nama = input("Nama : ")
 
-# Implementasi Facade Pattern
-class RentalFacade:
-    def __init__(self, rental):
-        self.rental = rental
+class Parkir:
+    def __init__(self, id, jam, tarif):
+        self.id, self.jam, self.tarif = id, jam, tarif
+    
+    def hitungBiaya(self, waktukeluar):
+        try:
+            waktu_masuk = [int(x) for x in self.jam.split(':')]
+            waktu_keluar = [int(x) for x in waktukeluar.replace('.', ':').split(':')]
+            
+            durasi = Jam(*waktu_masuk).selisih(Jam(*waktu_keluar))
+            return {
+                'durasi_jam': durasi // 60,
+                'durasi_menit': durasi % 60,
+                'biaya': hitung(durasi, self.tarif)
+            }
+        except (ValueError, IndexError):
+            return None
 
-    def tampilkanStatus(self):
-        print("\n=== Status Rental ===")
-        print("\nDaftar Petugas:")
-        if len(self.rental.listPetugas) == 0:
-            print("- Belum ada petugas")
-        else:
-            for petugas in self.rental.listPetugas:
-                print(f"- ID: {petugas.id}, Nama: {petugas.nama}")
-
-        print("\nDaftar Kendaraan:")
-        if len(self.rental.listKendaraan) == 0:
-            print("- Belum ada kendaraan")
-        else:
-            for kendaraan in self.rental.listKendaraan:
-                status = "CekIn" if kendaraan.status_cekin else "Tersedia"
-                print(f"- ID: {kendaraan.id}, Nama: {kendaraan.nama}, Status: {status}")
-
-class Rental:
+class Garasi:
     def __init__(self):
         self.listKendaraan = []
-        self.listPetugas = []
-        self.facade = RentalFacade(self)
-        self.tarif_per_menit = 1000 
+        self.listParkir = []
+        self.petugas = None
     
-    def mulai(self):
-        print("\n=== Sistem Rental Kendaraan ===")
-        self.facade.tampilkanStatus()
-    
-    def tampilMenuUtama(self):
-        while True:
-            print("\n1. Mulai(Facade Pattern)")
-            print("2. Tambah Petugas")
-            print("3. Tambah Kendaraan")
-            print("4. CekIn Kendaraan")
-            print("5. CekOut Kendaraan")
-            print("6. Daftar Kendaraan")
-            print("7. Daftar Parkir")
-            print("0. Keluar")
-            
-            pil = input("\nPilihan : ")
-            if pil == "0":
-                print("\nTerima kasih telah menggunakan sistem rental!")
-                break
-            elif pil == "1":
-                self.mulai()
-            elif pil == "2":
-                # Cek jika sudah ada petugas
-                if len(self.listPetugas) > 0:
-                    print("\nPetugas sudah ada! Silahkan tambah kendaraan.")
-                    self.tambahKendaraan()
-                else:
-                    self.tambahPetugas()
-            elif pil == "3":
-                # Cek jika belum ada petugas
-                if len(self.listPetugas) == 0:
-                    print("\nHarap tambahkan petugas terlebih dahulu!")
-                    self.tambahPetugas()
-                self.tambahKendaraan()
-            elif pil == "4":
-                self.cekInKendaraan()
-            elif pil == "5":
-                self.cekOutKendaraan()
-            elif pil == "6":
-                self.daftarKendaraan()
-            elif pil == "7":
-                self.daftarParkir()
-            
-            if pil != "0":
-                input("\nEnter untuk Lanjut")
+    def tampilkanInfo(self, kendaraan):
+        info = [
+            f"ID Kendaraan   : {kendaraan.id}",
+            f"Nama Kendaraan : {kendaraan.nama}",
+            f"Status         : {'CekIn' if kendaraan.status_cekin else 'Tersedia'}"
+        ]
+        
+        if isinstance(kendaraan, Mobil):
+            info.extend([
+                f"Jenis          : Mobil",
+                f"Transmisi      : {kendaraan.transmisi}",
+                f"Jumlah Roda    : {kendaraan.jumlahRoda}"
+            ])
+        else:
+            info.extend([
+                f"Jenis          : Excavator",
+                f"Attachment     : {kendaraan.att}",
+                f"Jenis Roda     : {kendaraan.jenisRoda}"
+            ])
+        
+        if kendaraan.status_cekin:
+            info.append(f"Waktu CekIn    : {kendaraan.waktu_cekin}")
+        
+        print("\n".join(info))
 
     def tambahPetugas(self):
-        petugas = Petugas()
-        self.listPetugas.append(petugas)
-        print(f"Petugas dengan ID: {petugas.id} berhasil ditambahkan")
+        self.petugas = Petugas()
+        print(f"Petugas dengan ID: {self.petugas.id} berhasil ditambahkan")
 
     def tambahKendaraan(self):
-        print("\nMenu")
-        print("1. Mobil")
-        print("2. Excavator")
-        pilihan = input("Pilihan : ")
-        
-        if pilihan == "1":
-            kendaraan = Adaptorpendorong()
-            self.listKendaraan.append(kendaraan)
-        elif pilihan == "2":
-            kendaraan = Excavator()
-            self.listKendaraan.append(kendaraan)
+        print("\nMenu\n1. Mobil\n2. Excavator")
+        kendaraan = Mobil() if input("Pilihan : ") == "1" else Excavator()
+        self.listKendaraan.append(kendaraan)
 
-    def cekInKendaraan(self):
+    def cekInParkir(self):
         id_kendaraan = input("\nID Kendaraan : ")
-        waktu = input("Waktu CekIn (jj:mm): ")
-        waktu = waktu.replace('.', ':') 
+        waktu = input("Waktu CekIn (jj:mm): ").replace('.', ':')
         
         for kendaraan in self.listKendaraan:
             if kendaraan.id == id_kendaraan:
                 if not kendaraan.status_cekin:
                     kendaraan.status_cekin = True
                     kendaraan.waktu_cekin = waktu
-                    print("Parkir telah ditambahkan")
-                    return
-                else:
-                    print(f"Kendaraan {id_kendaraan} sudah CekIn Parkir")
-                    return
+                    self.listParkir.append(Parkir(id_kendaraan, waktu, kendaraan))
+                    return print("Parkir telah ditambahkan")
+                return print(f"Kendaraan {id_kendaraan} sudah CekIn Parkir")
         print(f"Kendaraan {id_kendaraan} tidak ditemukan")
 
-    def cekOutKendaraan(self):
+    def cekOutParkir(self):
         id_kendaraan = input("\nID Kendaraan : ")
-        for kendaraan in self.listKendaraan:
-            if kendaraan.id == id_kendaraan:
-                if not kendaraan.status_cekin:
-                    print(f"Kendaraan {id_kendaraan} belum CekIn Parkir")
-                    return
-                
-                waktu_keluar_input = input("Waktu CekOut (jj:mm): ")
-                waktu_keluar_input = waktu_keluar_input.replace('.', ':')  
-                waktu_masuk = kendaraan.waktu_cekin.split(':')
-                waktu_keluar = waktu_keluar_input.split(':')
-                
-                try:
-                    jam_masuk = int(waktu_masuk[0])
-                    menit_masuk = int(waktu_masuk[1])
-                    jam_keluar = int(waktu_keluar[0])
-                    menit_keluar = int(waktu_keluar[1])
-                    
-                    waktu_masuk_obj = Jam(jam_masuk, menit_masuk)
-                    waktu_keluar_obj = Jam(jam_keluar, menit_keluar)
-                    
-                    durasi = waktu_masuk_obj.selisih(waktu_keluar_obj)
-                    # Hitung jam dan menit untuk display
-                    jam = durasi // 60
-                    menit = durasi % 60
-                    
-                    # Tentukan tarif dasar
-                    tarif_dasar = 5000 if isinstance(kendaraan, Adaptorpendorong) else 30000
-                    biaya = hitung(durasi, kendaraan)
-                    
-                    kendaraan.status_cekin = False
-                    kendaraan.waktu_cekin = None
-                    
-                    print(f"\nID Kendaraan : {id_kendaraan}")
-                    print(f"Waktu CekOut (jj:mm): {':'.join(waktu_keluar)}")
-                    print(f"Waktu : {jam}.{menit} jam {menit} menit dengan tarif dasar {tarif_dasar}")
-                    print(f"{biaya}")
-                    print(f"Kendaraan {id_kendaraan} berhasil Cek Out dengan biaya : {biaya}")
-                    return
-                except (ValueError, IndexError):
-                    print("Format waktu tidak valid. Gunakan format jj:mm")
-                    return
-                
-        print(f"Kendaraan {id_kendaraan} tidak ditemukan")
-
-    def daftarKendaraan(self):
-        print("\nDaftar Kendaraan:")
-        if len(self.listKendaraan) == 0:
-            print("- Belum ada kendaraan")
+        parkir = next((p for p in self.listParkir if p.id == id_kendaraan), None)
+        kendaraan = next((k for k in self.listKendaraan if k.id == id_kendaraan), None)
+        
+        if not parkir or not kendaraan or not kendaraan.status_cekin:
+            return print(f"Kendaraan {id_kendaraan} tidak valid untuk checkout")
+        
+        hasil = parkir.hitungBiaya(input("Waktu CekOut (jj:mm): "))
+        if hasil:
+            tarif_dasar = 5000 if isinstance(kendaraan, Mobil) else 30000
+            print(f"\nID Kendaraan : {id_kendaraan}")
+            print(f"Durasi : {hasil['durasi_jam']} jam {hasil['durasi_menit']} menit")
+            print(f"Tarif Dasar : {tarif_dasar}")
+            print(f"Total Biaya : {hasil['biaya']}")
+            
+            kendaraan.status_cekin = False
+            kendaraan.waktu_cekin = None
+            self.listParkir.remove(parkir)
         else:
-            for kendaraan in self.listKendaraan:
-                print(f"ID: {kendaraan.id}, Nama: {kendaraan.nama}")
+            print("Format waktu tidak valid (gunakan jj:mm)")
+
+    def mulai(self):
+        if not self.petugas:
+            return self.tambahPetugas()
+        
+        print("\nData Petugas:")
+        print(f"ID: {self.petugas.id}, Nama: {self.petugas.nama}")
+        
+        if not self.listKendaraan:
+            return print("\nBelum ada kendaraan")
+        
+        print("\nData Kendaraan:")
+        for kendaraan in self.listKendaraan:
+            print("\n" + "-"*34)
+            self.tampilkanInfo(kendaraan)
+            print("-"*34)
 
     def daftarParkir(self):
         print("\nDaftar Parkir:")
-        ada_parkir = False
-        for kendaraan in self.listKendaraan:
-            if kendaraan.status_cekin:
-                print(f"ID: {kendaraan.id}, Waktu CekIn: {kendaraan.waktu_cekin}")
-                ada_parkir = True
-        if not ada_parkir:
-            print("- Belum ada kendaraan yang parkir")
-
+        if not self.listParkir:
+            return print("- Belum ada kendaraan yang parkir")
+        for p in self.listParkir:
+            print(f"ID: {p.id}, Waktu CekIn: {p.jam}")
 
 if __name__ == "__main__":
-    rental = Rental()
-    rental.tampilMenuUtama()
+    obj = Garasi()
+    menu = {
+        "1": ("Mulai(Facade Pattern)", obj.mulai),
+        "2": ("Tambah Petugas", obj.tambahPetugas),
+        "3": ("Tambah Kendaraan", obj.tambahKendaraan),
+        "4": ("CekIn Kendaraan", obj.cekInParkir),
+        "5": ("CekOut Kendaraan", obj.cekOutParkir),
+        "6": ("Daftar Kendaraan", obj.mulai),
+        "7": ("Daftar Parkir", obj.daftarParkir),
+    }
+    
+    while True:
+        print("\nMenu")
+        for key, (label, _) in menu.items():
+            print(f"{key}. {label}")
+        print("0. Keluar")
+        
+        pil = input("\nPilihan : ")
+        if pil == "0":
+            print("\nTerima kasih telah menggunakan sistem parkir!")
+            break
+        
+        if pil in menu:
+            menu[pil][1]()
+            input("\nTekan Enter untuk melanjutkan...")
