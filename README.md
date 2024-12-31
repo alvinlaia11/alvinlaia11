@@ -59,7 +59,7 @@ Hi! I'm Alvin, a passionate Frontend Developer and UI/UX Designer dedicated to c
   
 ### 🔍 Found Me On
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-255E63?style=for-the-badge&logo=About.me&logoColor=white)](https://alvinlaia11.github.io/portfolio/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-255E63?style=for-the-badge&logo=About.me&logoColor=white)](https://alvinportofolio.my.id/)
 
 ### 📫 Contact Me
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alvinlaia2004@gmail.com)
